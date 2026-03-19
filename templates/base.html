@@ -4,6 +4,18 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{% block title %}Memo{% endblock %}</title>
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme'); // 'light' | 'dark' | null
+        var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (systemDark ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+      } catch (e) {
+        // If storage is blocked, fall back to CSS defaults.
+      }
+    })();
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,6 +29,17 @@
       --muted: #9aa7bd;
       --danger: #ff6b6b;
       --radius: 10px;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --surface2: #f1f4fa;
+      --border: #d7deea;
+      --accent: #2f6bff;
+      --text: #0e1726;
+      --muted: #4f5f78;
+      --danger: #d12b2b;
     }
 
     html, body { height: 100%; }
@@ -56,10 +79,53 @@
     }
     .flash-error { background: rgba(255,107,107,.1); border-color: var(--danger); color: #ffb3b3; }
     .flash-success { background: rgba(143,180,255,.12); border-color: var(--accent); color: var(--accent); }
+
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1000;
+    }
   </style>
   {% block extra_styles %}{% endblock %}
 </head>
 <body>
+  <button class="btn btn-ghost theme-toggle" type="button" id="theme-toggle" aria-label="Toggle theme">
+    <span id="theme-toggle-icon" aria-hidden="true">☾</span>
+    <span id="theme-toggle-label">Dark</span>
+  </button>
+
 {% block body %}{% endblock %}
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById('theme-toggle');
+      var icon = document.getElementById('theme-toggle-icon');
+      var label = document.getElementById('theme-toggle-label');
+
+      function apply(theme) {
+        root.dataset.theme = theme;
+        var isDark = theme === 'dark';
+        icon.textContent = isDark ? '☾' : '☀';
+        label.textContent = isDark ? 'Dark' : 'Light';
+      }
+
+      function currentTheme() {
+        var t = root.dataset.theme;
+        if (t === 'dark' || t === 'light') return t;
+        var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return systemDark ? 'dark' : 'light';
+      }
+
+      apply(currentTheme());
+
+      btn.addEventListener('click', function () {
+        var next = currentTheme() === 'dark' ? 'light' : 'dark';
+        apply(next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      });
+    })();
+  </script>
 </body>
 </html>
