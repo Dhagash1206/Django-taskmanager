@@ -3,12 +3,13 @@
 A full-featured Django app with user auth, todo tasks, and rich text notes.
 
 ## Features
-- ✅ User registration & login
 - ✅ Protected dashboard (login required)
+- ✅ User registration & login
+  <img width="844" height="777" alt="Screenshot 2026-03-18 111259" src="https://github.com/user-attachments/assets/8455deab-3ce5-446f-9e39-aa9ba86d2438" />
 - ✅ Todo list — add, complete, delete tasks
+  <img width="946" height="474" alt="Screenshot 2026-03-18 111433" src="https://github.com/user-attachments/assets/7d297077-9eb6-4241-bf4a-de46d3834cd0" />
 - ✅ Notes — create, auto-save, delete rich text notes
-- ✅ Dark theme UI with sidebar layout
-
+  <img width="956" height="456" alt="Screenshot 2026-03-18 111731" src="https://github.com/user-attachments/assets/f6c7cf14-859a-4c74-8f75-148665bfa8b8" />
 ---
 
 ## Quick Start
@@ -62,13 +63,13 @@ http://127.0.0.1:8000/
 todoapp/
 ├── manage.py
 ├── requirements.txt
-├── todoapp/           ← Django project config
+├── todoapp/           
 │   ├── settings.py
 │   └── urls.py
-├── accounts/          ← Login / Register / Logout
+├── accounts/          
 │   ├── views.py
 │   └── urls.py
-├── todos/             ← Todo tasks + Notes
+├── todos/            
 │   ├── models.py
 │   ├── views.py
 │   └── urls.py
