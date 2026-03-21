@@ -16,7 +16,7 @@ def get_list_env(name, default=""):
 
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-dev-key-change-in-production-xyz123")
 DEBUG = get_bool_env("DEBUG", False)
-ALLOWED_HOSTS = get_list_env("ALLOWED_HOSTS", "127.0.0.1,localhost")
+ALLOWED_HOSTS = get_list_env("ALLOWED_HOSTS", "127.0.0.1,localhost,.up.railway.app")
 CSRF_TRUSTED_ORIGINS = get_list_env("CSRF_TRUSTED_ORIGINS")
 
 INSTALLED_APPS = [
