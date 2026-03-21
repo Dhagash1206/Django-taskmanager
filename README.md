@@ -1,4 +1,4 @@
-# memo. — Django Todo + Notes App
+# TaskMate — Django Todo + Notes App
 
 A full-featured Django app with user auth, todo tasks, and rich text notes.
 
@@ -92,3 +92,17 @@ todoapp/
 | `/accounts/logout/` | Logout |
 | `/todos/` | Main dashboard |
 | `/admin/` | Django admin |
+
+---
+
+## Deploy on Railway
+
+1. Push the repo to GitHub.
+2. Create a new project in Railway and connect this repo.
+3. Add a PostgreSQL service in Railway (this sets `DATABASE_URL` automatically).
+4. Add these Railway environment variables:
+   - `SECRET_KEY` = strong random value
+   - `DEBUG` = `False`
+   - `ALLOWED_HOSTS` = your Railway domain (comma-separated if multiple)
+   - `CSRF_TRUSTED_ORIGINS` = `https://<your-domain>`
+5. Deploy. The `Procfile` runs migrations, collects static files, and starts Gunicorn.
