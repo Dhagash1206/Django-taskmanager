@@ -106,3 +106,4 @@ todoapp/
    - `ALLOWED_HOSTS` = your Railway domain (comma-separated if multiple)
    - `CSRF_TRUSTED_ORIGINS` = `https://<your-domain>`
 5. Deploy. The `Procfile` runs migrations, collects static files, and starts Gunicorn.
+6. If build fails on Python install, ensure Railway uses Python 3.12 (this repo pins it in `runtime.txt`).
