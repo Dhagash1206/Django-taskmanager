@@ -1,5 +1,7 @@
 Django>=5.2,<6.0
+python-dotenv>=1.0,<2
 gunicorn
 whitenoise
 dj-database-url
 psycopg[binary]
+firebase-admin>=6.5,<7

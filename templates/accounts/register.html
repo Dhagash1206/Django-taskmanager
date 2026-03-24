@@ -45,6 +45,24 @@
   .auth-footer { text-align: center; margin-top: 24px; font-size: 13px; color: var(--muted); }
   .auth-footer a { color: var(--accent); font-weight: 600; }
   .auth-footer a:hover { text-decoration: underline; }
+
+  .auth-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 20px 0; color: var(--muted); font-size: 12px;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .btn-github {
+    width: 100%;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    background: var(--surface2); color: var(--text);
+    border: 1px solid var(--border);
+    padding: 12px; border-radius: 10px; font-weight: 600;
+  }
+  .btn-github-icon { flex-shrink: 0; opacity: .95; }
+  .btn-github:hover:not(:disabled) { border-color: #3a4861; background: rgba(255,255,255,.04); }
+  .btn-github:disabled { opacity: .6; cursor: not-allowed; }
 </style>
 {% endblock %}
 
@@ -78,6 +96,8 @@
       </div>
       <button type="submit" class="btn auth-submit">Create account</button>
     </form>
+
+    {% include 'accounts/includes/firebase_github.html' %}
 
     <div class="auth-footer">
       Already have an account? <a href="/accounts/login/">Sign in</a>
