@@ -17,7 +17,6 @@ def get_list_env(name, default=""):
 
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-key-change")
 DEBUG = True  # get_bool_env("DEBUG", False)
-print("RUNNING THIS SETTINGS FILE")
 
 # get_list_env("ALLOWED_HOSTS") or ["127.0.0.1","localhost"]
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
