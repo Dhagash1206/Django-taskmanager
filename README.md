@@ -1,8 +1,5 @@
-# TaskMate — Django Todo + Notes App
+# TaskMate — Django Notes App
 
-A full-featured Django web application with session-based user authentication, SQLite (default) / PostgreSQL (production) database support, todo task management, and auto-saving text notes.
-
----
 
 ## Table of Contents
 
