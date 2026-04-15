@@ -20,17 +20,20 @@
 - **Protected Dashboard** — `@login_required` on all dashboard views; unauthenticated users are redirected to login
 - **User Registration** — creates a new `auth_user` record with a hashed password via `UserCreationForm`
 - **User Login** — session-based, sets `sessionid` cookie
-- **GitHub Sign-In (Optional)** — Firebase popup flow verifies an ID token server-side; Django then creates/fetches the matching user and starts a standard Django session
+- **GitHub Sign-In** — Firebase popup flow verifies an ID token server-side; Django then creates/fetches the matching user and starts a standard Django session
 
-  ![Login page with GitHub sign-in](https://github.com/user-attachments/assets/8455deab-3ce5-446f-9e39-aa9ba86d2438)
+- <img width="1920" height="1080" alt="Screenshot 2026-04-15 200003" src="https://github.com/user-attachments/assets/792e5b65-9773-4319-85e3-46966b56ab37" />
+
 
 - **Todo List** — add tasks, mark as complete (toggles `completed` boolean field), delete tasks; each task is scoped to `request.user`
 
-  ![Todo list dashboard](https://github.com/user-attachments/assets/7d297077-9eb6-4241-bf4a-de46d3834cd0)
+<img width="1920" height="1080" alt="Screenshot 2026-04-15 195938" src="https://github.com/user-attachments/assets/55740839-88fa-4998-81a3-d477984c7faf" />
+
 
 - ** Text Notes** — create notes with formatting; notes auto-save; each note is scoped to `request.user`; delete supported
 
-  ![Notes dashboard](https://github.com/user-attachments/assets/f6c7cf14-859a-4c74-8f75-148665bfa8b8)
+<img width="1920" height="1080" alt="Screenshot 2026-04-15 195938" src="https://github.com/user-attachments/assets/a1443af6-f682-4ec7-9bb2-9db63e4795ff" />
+
 
 
 ---
