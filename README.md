@@ -25,14 +25,16 @@
 - <img width="1920" height="1080" alt="Screenshot 2026-04-15 200003" src="https://github.com/user-attachments/assets/792e5b65-9773-4319-85e3-46966b56ab37" />
 
 
-- **Todo List** — add tasks, mark as complete (toggles `completed` boolean field), delete tasks; each task is scoped to `request.user`
-
-<img width="1920" height="1080" alt="Screenshot 2026-04-15 195938" src="https://github.com/user-attachments/assets/55740839-88fa-4998-81a3-d477984c7faf" />
-
-
 - **Todo Notes** — create notes with formatting; notes auto-save; each note is scoped to `request.user`; delete supported
 
 <img width="1920" height="1080" alt="Screenshot 2026-04-15 195938" src="https://github.com/user-attachments/assets/a1443af6-f682-4ec7-9bb2-9db63e4795ff" />
+
+
+- **Todo List** — add tasks, mark as complete (toggles `completed` boolean field), delete tasks; each task is scoped to `request.user`
+
+<img width="1920" height="1080" alt="Screenshot 2026-04-15 195930" src="https://github.com/user-attachments/assets/38dbffda-9761-4fa2-9859-16e3da75fef0" />
+
+
 
 
 
