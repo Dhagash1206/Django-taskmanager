@@ -30,7 +30,7 @@
 <img width="1920" height="1080" alt="Screenshot 2026-04-15 195938" src="https://github.com/user-attachments/assets/55740839-88fa-4998-81a3-d477984c7faf" />
 
 
-- ** Text Notes** — create notes with formatting; notes auto-save; each note is scoped to `request.user`; delete supported
+- **Todo Notes** — create notes with formatting; notes auto-save; each note is scoped to `request.user`; delete supported
 
 <img width="1920" height="1080" alt="Screenshot 2026-04-15 195938" src="https://github.com/user-attachments/assets/a1443af6-f682-4ec7-9bb2-9db63e4795ff" />
 
