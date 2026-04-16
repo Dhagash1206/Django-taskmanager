@@ -195,22 +195,30 @@ Copy `.env.example` to `.env` in the project root. Django loads it on startup vi
 
 ```env
 # Core Django
-SECRET_KEY=your-strong-random-secret-key
-DEBUG=True                          # Set False in production
-ALLOWED_HOSTS=localhost,127.0.0.1   # Comma-separated
 
-# Optional: Firebase GitHub Login (leave blank to disable GitHub button)
+DEBUG=True
+ALLOWED_HOSTS=127.0.0.1,localhost
+
+CSRF_TRUSTED_ORIGINS= 
+# Railway provides DATABASE_URL automatically when PostgreSQL is attached
+
+# Firebase Auth (GitHub) — from Firebase console → Project settings → Your apps (Web) + Service accounts
 FIREBASE_WEB_API_KEY=
 FIREBASE_AUTH_DOMAIN=
 FIREBASE_PROJECT_ID=
 FIREBASE_APP_ID=
 FIREBASE_MESSAGING_SENDER_ID=
+# Server: path to service account JSON file (local), OR set FIREBASE_SERVICE_ACCOUNT_JSON to the raw JSON (Railway)
+# GOOGLE_APPLICATION_CREDENTIALS=/path/to/serviceAccount.json
+# FIREBASE_SERVICE_ACCOUNT_JSON={"type":"service_account",...}
 
-# Firebase Admin (server-side token verification)
-# Local: path to service account JSON file
-GOOGLE_APPLICATION_CREDENTIALS=/path/to/serviceAccountKey.json
-# OR for Railway: paste full JSON content
-FIREBASE_SERVICE_ACCOUNT_JSON=
+
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+DB_HOST=localhost
+DB_PORT=5432
+
 ```
 
 **The "Continue with GitHub" button only appears when all three of these are set:**
