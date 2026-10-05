@@ -1,21 +1,5 @@
-# TaskMate — Django Notes App
 
-
-## Table of Contents
-
-- [Tech Stack](#tech-stack)
-- [Authentication — How Session Login Works](#authentication--how-session-login-works)
-- [Database — SQLite (Default) & PostgreSQL](#database--sqlite-default--postgresql)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Environment Variables](#environment-variables)
-- [Quick Start (Local Development)](#quick-start-local-development)
-- [Common Errors & Fixes](#common-errors--fixes)
-
----
-
-
-## Features
+# Features
 
 - **Protected Dashboard** — `@login_required` on all dashboard views; unauthenticated users are redirected to login
 - **User Registration** — creates a new `auth_user` record with a hashed password via `UserCreationForm`
@@ -40,7 +24,7 @@
 
 ---
 
-## Tech Stack
+# Tech Stack
 
 | Layer        | Technology                                      |
 |--------------|-------------------------------------------------|
@@ -52,28 +36,36 @@
 | Environment  | `python-dotenv` for `.env` loading              |
 
 ---
+# Architecture
 
-## Authentication — How Session Login Works
+```
+              browser
+      templates + js + firebase sdk
+         |                 |
+   http, session,     github popup
+   csrf cookie             |
+         |                 |
+         v                 v
++--------------------+   +-------------+
+| gunicorn           |   | firebase    |
+|                    |   | auth        |
+|  whitenoise        |   | (github)    |
+|    /static/        |   +------+------+
+|                    |          ^
+|  django 5.2        |          |
+|    middleware      |          | verify_id_token
+|    todoapp.urls    |          |
+|      /accounts ---------------+
+|      /todos        |
+|      /admin        |
+|    orm             |
++---------+----------+
+          |
+          v
+  postgres (sqlite if no DB_* vars)
+```
 
-TaskMate uses **Django's built-in session-based authentication** — no JWT, no tokens on the client side for standard login.
-
-### How it works step by step:
-
-1. **User submits credentials** via `POST /accounts/login/`
-2. Django's `authenticate()` function checks the submitted `username` and `password` against the `auth_user` table in the database (passwords are stored as hashed values using PBKDF2 by default — never plain text)
-3. If credentials match, Django calls `login(request, user)` which:
-   - Creates a new row in the `django_session` table
-   - Stores the `user_id` and session metadata (encoded + signed) in that row
-   - Sets a `sessionid` cookie on the browser with the session key
-4. On every subsequent request, the browser sends the `sessionid` cookie automatically
-5. Django's `SessionMiddleware` reads the cookie, looks up the session in `django_session`, and attaches `request.user` — so views always know who is logged in
-6. The `@login_required` decorator on the dashboard view checks `request.user.is_authenticated` — if `False`, the user is redirected to `/accounts/login/`
-
-### Logout:
-
-- `GET /accounts/logout/` calls Django's `logout(request)`, which deletes the session row from `django_session` and clears the cookie — the user is fully logged out
-
-### Session table:
+# Session table:
 
 Django manages the `django_session` table automatically. It has three columns:
 
@@ -89,7 +81,7 @@ python manage.py clearsessions
 ```
 ---
 
-## Database — SQLite (Default) & PostgreSQL
+# Database — SQLite (Default) & PostgreSQL
 
 ### SQLite (Development Default)
 
@@ -123,7 +115,7 @@ SQLite is perfect for local development:
 | `todos_todo`           | User's todo tasks                            |
 | `todos_note`           | User's text notes                       |
 
-### PostgreSQL (Production — Railway)
+## PostgreSQL (Production — Railway)
 
 When deployed to Railway, a PostgreSQL service is linked and the `DATABASE_URL` environment variable is set automatically. Django switches to PostgreSQL by reading this variable (using `dj-database-url` or similar).
 
@@ -150,46 +142,28 @@ PostgreSQL differences from SQLite to be aware of:
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```
-todoapp/
-├── manage.py                     # Django CLI entry point
-├── requirements.txt              # Python dependencies
-├── Procfile                      # Railway: runs migrate + gunicorn
-├── runtime.txt                   # Pins Python 3.12 for Railway
-├── .env.example                  # Template for environment variables
-├── db.sqlite3                    # Auto-created SQLite file (local only)
-│
-├── todoapp/                      # Core Django project package
-│   ├── settings.py               # All app settings (DB, auth, installed apps)
-│   ├── urls.py                   # Root URL dispatcher
-│   └── wsgi.py / asgi.py         # Server entry points
-│
-├── accounts/                     # Auth app (register, login, logout, Firebase)
-│   ├── views.py                  # register_view, login_view, logout_view, firebase_session
-│   ├── urls.py                   # /accounts/* routes
-│   └── templates/accounts/
-│       ├── login.html
-│       ├── register.html
-│       └── includes/
-│           └── firebase_github.html   # GitHub popup button (shown only if Firebase env vars set)
-│
-├── todos/                        # Main feature app (tasks + notes)
-│   ├── models.py                 # Todo and Note models (ForeignKey to auth_user)
-│   ├── views.py                  # dashboard_view, add_task, toggle_task, delete_task, save_note, delete_note
-│   ├── urls.py                   # /todos/* routes
-│   └── migrations/               # Auto-generated migration files
-│
-└── templates/
-    ├── base.html                 # Shared layout (navbar, session user info)
-    └── todos/
-        └── dashboard.html        # Main authenticated view (tasks + notes UI)
+/                          redirects to /todos/
+/todos/                    dashboard
+/todos/add/                POST
+/todos/toggle/<id>/
+/todos/delete/<id>/
+/todos/notes/save/         POST, JSON
+/todos/notes/get/<id>/     JSON
+/todos/notes/delete/<id>/  JSON
+/accounts/login/
+/accounts/register/
+/accounts/logout/
+/accounts/firebase/session/  POST, JSON
+/admin/
 ```
+
 
 ---
 
-## Environment Variables
+# Environment Variables
 
 Copy `.env.example` to `.env` in the project root. Django loads it on startup via `python-dotenv`.
 
@@ -276,13 +250,6 @@ The root URL `/` redirects to `/todos/` (dashboard). If not logged in, Django re
 
 ---
 
-## Common Errors & Fixes
-
-### `OperationalError: no such table: todos_todo`
-
-**Cause:** The `todos` app migrations have not been created or applied yet. The `Todo` and `Note` tables do not exist in `db.sqlite3`.
-
-**Fix:**
 ```bash
 python manage.py makemigrations todos
 python manage.py migrate
@@ -292,15 +259,5 @@ Run this whenever you:
 - Set up a new local environment
 - Pull changes that include new model fields
 - Deploy to a new server
-
----
-
-### `500 Internal Server Error` on Login or Register
-
-**Cause:** Core Django tables (e.g., `auth_user`, `django_session`) don't exist yet.
-
-**Fix:** Run `python manage.py migrate` before starting the server.
-
----
 
 
